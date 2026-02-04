@@ -16,7 +16,7 @@ let categoryChart, monthlyChart;
 const today = new Date();
 monthPicker.value = today.toISOString().slice(0, 7);
 
-// 🔹 Load budget when month changes
+// 🔹 Load budget for selected month
 function loadBudget() {
   const selectedMonth = monthPicker.value;
   budgetInput.value = budgets[selectedMonth] || "";
@@ -173,6 +173,11 @@ downloadBtn.addEventListener("click", () => {
 
   window.URL.revokeObjectURL(url);
 });
+
+// 🔹 AUTO-UPDATE "Today Spending" every minute
+setInterval(() => {
+  displayExpenses();
+}, 60000); // refresh every 60 seconds
 
 loadBudget();
 displayExpenses();
