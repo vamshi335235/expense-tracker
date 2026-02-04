@@ -6,25 +6,23 @@
   <title>Daily Expense Tracker</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
   <div class="container">
 
-    <!-- -------- Navbar -------- -->
-    <div class="navbar">
-      <h1>💰 Daily Expense Tracker</h1>
-      <div class="profile-section">
-        <div class="profile-circle" title="User">U</div>
-      </div>
-    </div>
+    <!-- -------- App Title -------- -->
+    <h1 class="app-title">💰 Daily Expense Tracker</h1>
 
-    <!-- -------- Controls (Month + Budget + Download) -------- -->
+    <!-- -------- Controls -------- -->
     <div class="controls">
       <input type="month" id="month-picker">
       <input type="number" id="budget-input" placeholder="Set Monthly Budget">
       <button id="set-budget-btn">Set Budget</button>
-      <button id="download-btn">Download This Month Data</button>
+      <button id="download-excel-btn">Download Excel</button>
+      <button id="download-pdf-btn">Download PDF</button>
     </div>
 
     <p id="budget-warning"></p>
@@ -48,7 +46,6 @@
     <!-- -------- Expense Form -------- -->
     <form id="expense-form">
       <input type="number" id="amount" placeholder="Amount" required>
-      
       <select id="category" required>
         <option value="">Select Category</option>
         <option>Food</option>
@@ -57,25 +54,26 @@
         <option>Bills</option>
         <option>Other</option>
       </select>
-
       <input type="date" id="date" required>
       <input type="text" id="note" placeholder="Note (optional)">
       <button type="submit">Add Expense</button>
     </form>
 
     <!-- -------- Expense Table -------- -->
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Category</th>
-          <th>Amount</th>
-          <th>Note</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody id="expense-list"></tbody>
-    </table>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Amount</th>
+            <th>Note</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="expense-list"></tbody>
+      </table>
+    </div>
 
     <!-- -------- Charts -------- -->
     <div class="charts">
