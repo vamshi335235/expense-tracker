@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily Expense Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    <h1>💰 Daily Expense Tracker</h1>
+
+    <!-- 🔹 Month + Budget + Download Controls -->
+    <div class="controls">
+      <input type="month" id="month-picker">
+      <input type="number" id="budget-input" placeholder="Set Monthly Budget">
+      <button id="set-budget-btn">Set Budget</button>
+      <button id="download-btn">Download  report</button>
+    </div>
+
+    <p id="budget-warning"></p>
+
+    <!-- 🔹 Summary Cards -->
+    <div class="summary">
+      <div class="card">
+        <h3>Total Spending (Month)</h3>
+        <p id="total-spending">₹0</p>
+      </div>
+      <div class="card">
+        <h3>This Month</h3>
+        <p id="monthly-spending">₹0</p>
+      </div>
+      <div class="card">
+        <h3>Today Spending</h3>
+        <p id="daily-spending">₹0</p>
+      </div>
+    </div>
+
+    <!-- 🔹 Expense Form -->
+    <form id="expense-form">
+      <input type="number" id="amount" placeholder="Amount" required>
+      
+      <select id="category" required>
+        <option value="">Select Category</option>
+        <option>Food</option>
+        <option>Travel</option>
+        <option>Shopping</option>
+        <option>Bills</option>
+        <option>Other</option>
+      </select>
+
+      <input type="date" id="date" required>
+      <input type="text" id="note" placeholder="Note (optional)">
+      <button type="submit">Add Expense</button>
+    </form>
+
+    <!-- 🔹 Expense Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Category</th>
+          <th>Amount</th>
+          <th>Note</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="expense-list"></tbody>
+    </table>
+
+    <!-- 🔹 Charts -->
+    <div class="charts">
+      <canvas id="categoryChart"></canvas>
+      <canvas id="monthlyChart"></canvas>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
