@@ -21,8 +21,30 @@
       <input type="month" id="month-picker">
       <input type="number" id="budget-input" placeholder="Set Monthly Budget">
       <button id="set-budget-btn">Set Budget</button>
-      <button id="download-excel-btn">Download Excel</button>
-      <button id="download-pdf-btn">Download PDF</button>
+
+      <!-- Single Download Report Button -->
+      <div class="download-wrapper">
+        <button id="download-report-btn">Download Report ⬇️</button>
+        <div class="download-menu" id="download-menu">
+          <div>
+            <label>Report:</label>
+            <select id="menu-report-type">
+              <option value="today">Today</option>
+              <option value="week">This Week</option>
+              <option value="month" selected>This Month</option>
+              <option value="all">All Time</option>
+            </select>
+          </div>
+          <div>
+            <label>Format:</label>
+            <select id="menu-format">
+              <option value="excel">Excel</option>
+              <option value="pdf">PDF</option>
+            </select>
+          </div>
+          <button id="menu-download-btn">Download</button>
+        </div>
+      </div>
     </div>
 
     <p id="budget-warning"></p>

@@ -39,6 +39,7 @@ body {
 }
 
 .controls input,
+.controls select,
 .controls button {
   padding: 10px;
   border-radius: 8px;
@@ -58,11 +59,32 @@ body {
 #set-budget-btn { background: #4a90e2; color: white; }
 #set-budget-btn:hover { background: #357abd; }
 
-#download-excel-btn { background: #27ae60; color: white; }
-#download-excel-btn:hover { background: #1e874b; }
-
-#download-pdf-btn { background: #e67e22; color: white; }
-#download-pdf-btn:hover { background: #d35400; }
+/* -------- Download Menu -------- */
+.download-wrapper { position: relative; flex: 1; }
+.download-menu {
+  display: none;
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  z-index: 10;
+  width: 200px;
+}
+.download-menu select { width: 100%; margin-bottom: 8px; padding: 5px; }
+#menu-download-btn {
+  width: 100%;
+  padding: 8px;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#menu-download-btn:hover { background: #1e874b; }
 
 #budget-warning { margin: 8px 0 15px; font-weight: 600; font-size: 14px; }
 
@@ -110,16 +132,12 @@ form button {
 form button:hover { background: #1a242f; }
 
 /* -------- Table -------- */
-.table-wrapper {
-  overflow-x: auto;
-}
-
+.table-wrapper { overflow-x: auto; }
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
-
 thead { background: #4a90e2; color: white; }
 th, td { padding: 10px; text-align: center; border-bottom: 1px solid #ddd; }
 tbody tr:hover { background: #f1f5fb; }

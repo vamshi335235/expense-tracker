@@ -8,8 +8,13 @@ const monthPicker = document.getElementById('month-picker');
 const budgetInput = document.getElementById('budget-input');
 const setBudgetBtn = document.getElementById('set-budget-btn');
 const budgetWarning = document.getElementById('budget-warning');
-const downloadExcelBtn = document.getElementById('download-excel-btn');
-const downloadPdfBtn = document.getElementById('download-pdf-btn');
+
+// Download Report elements
+const downloadReportBtn = document.getElementById('download-report-btn');
+const downloadMenu = document.getElementById('download-menu');
+const menuReportType = document.getElementById('menu-report-type');
+const menuFormat = document.getElementById('menu-format');
+const menuDownloadBtn = document.getElementById('menu-download-btn');
 
 let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
 let budgets = JSON.parse(localStorage.getItem('budgets')) || {};
@@ -19,6 +24,7 @@ function saveBudgets(){ localStorage.setItem('budgets', JSON.stringify(budgets))
 function formatDate(date){ return new Date(date).toISOString().split('T')[0]; }
 function getSelectedMonth(){ return monthPicker.value ? monthPicker.value : new Date().toISOString().slice(0,7); }
 
+// ---------------- Render Expenses ----------------
 function renderExpenses(){
     const selectedMonth = getSelectedMonth();
     expenseList.innerHTML = '';
@@ -103,29 +109,58 @@ function updateCharts(){
     monthlyChart = new Chart(ctx2,{type:'bar',data:{labels:months,datasets:[{label:'Monthly Spending', data:totals, backgroundColor:'#4a90e2'}]}, options:{responsive:true}});
 }
 
-// ---------------- Download Excel ----------------
-downloadExcelBtn.addEventListener('click',()=>{
-    const selectedMonth = getSelectedMonth();
-    const filtered = expenses.filter(e=>e.date.startsWith(selectedMonth));
-    const ws = XLSX.utils.json_to_sheet(filtered);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Expenses");
-    XLSX.writeFile(wb, `${selectedMonth}-expenses.xlsx`);
+// ---------------- Download Menu Logic ----------------
+downloadReportBtn.addEventListener('click', ()=>{
+    downloadMenu.style.display = downloadMenu.style.display === 'block' ? 'none' : 'block';
+});
+document.addEventListener('click', (e)=>{
+    if(!downloadMenu.contains(e.target) && e.target !== downloadReportBtn){
+        downloadMenu.style.display = 'none';
+    }
 });
 
-// ---------------- Download PDF ----------------
-downloadPdfBtn.addEventListener('click',()=>{
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+function getFilteredDataMenu(){
+    const today = formatDate(new Date());
     const selectedMonth = getSelectedMonth();
-    const filtered = expenses.filter(e=>e.date.startsWith(selectedMonth));
-    let y=10;
-    doc.setFontSize(14); doc.text(`Expenses - ${selectedMonth}`,10,y); y+=10;
-    filtered.forEach(e=>{
-        doc.text(`${e.date} | ${e.category} | ₹${e.amount} | ${e.note||''}`,10,y);
-        y+=8;
-    });
-    doc.save(`${selectedMonth}-expenses.pdf`);
+    const startOfWeek = (() => {
+        const d = new Date();
+        const day = d.getDay(); 
+        d.setDate(d.getDate() - day); 
+        return formatDate(d);
+    })();
+
+    switch(menuReportType.value){
+        case 'today': return expenses.filter(e => e.date === today);
+        case 'week': return expenses.filter(e => e.date >= startOfWeek && e.date <= today);
+        case 'month': return expenses.filter(e => e.date.startsWith(selectedMonth));
+        case 'all':
+        default: return expenses;
+    }
+}
+
+menuDownloadBtn.addEventListener('click', ()=>{
+    const filtered = getFilteredDataMenu();
+    if(filtered.length === 0){ alert("No data to download"); return; }
+
+    if(menuFormat.value === 'excel'){
+        const ws = XLSX.utils.json_to_sheet(filtered);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Expenses");
+        XLSX.writeFile(wb, `ExpenseReport-${menuReportType.value}.xlsx`);
+    } else if(menuFormat.value === 'pdf'){
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        let y = 10;
+        doc.setFontSize(14);
+        doc.text(`Expense Report - ${menuReportType.value}`, 10, y); y+=10;
+        filtered.forEach(e => {
+            doc.text(`${e.date} | ${e.category} | ₹${e.amount} | ${e.note||''}`, 10, y);
+            y += 8;
+        });
+        doc.save(`ExpenseReport-${menuReportType.value}.pdf`);
+    }
+
+    downloadMenu.style.display = 'none';
 });
 
 // ---------------- Initial Render ----------------
