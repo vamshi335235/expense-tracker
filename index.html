@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daily Expense Tracker</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -12,17 +12,14 @@
 <body>
 
   <div class="container">
-
-    <!-- -------- App Title -------- -->
     <h1 class="app-title">💰 Daily Expense Tracker</h1>
 
-    <!-- -------- Controls -------- -->
+    <!-- Controls -->
     <div class="controls">
       <input type="month" id="month-picker">
       <input type="number" id="budget-input" placeholder="Set Monthly Budget">
       <button id="set-budget-btn">Set Budget</button>
 
-      <!-- Single Download Report Button -->
       <div class="download-wrapper">
         <button id="download-report-btn">Download Report ⬇️</button>
         <div class="download-menu" id="download-menu">
@@ -49,23 +46,23 @@
 
     <p id="budget-warning"></p>
 
-    <!-- -------- Summary Cards -------- -->
+    <!-- Summary Cards -->
     <div class="summary">
-      <div class="card">
+      <div class="card total">
         <h3>Total Spending (All Time)</h3>
         <p id="total-spending">₹0</p>
       </div>
-      <div class="card">
+      <div class="card monthly">
         <h3>This Month</h3>
         <p id="monthly-spending">₹0</p>
       </div>
-      <div class="card">
+      <div class="card daily">
         <h3>Today Spending</h3>
         <p id="daily-spending">₹0</p>
       </div>
     </div>
 
-    <!-- -------- Expense Form -------- -->
+    <!-- Expense Form -->
     <form id="expense-form">
       <input type="number" id="amount" placeholder="Amount" required>
       <select id="category" required>
@@ -81,7 +78,7 @@
       <button type="submit">Add Expense</button>
     </form>
 
-    <!-- -------- Expense Table -------- -->
+    <!-- Expense Table -->
     <div class="table-wrapper">
       <table>
         <thead>
@@ -97,12 +94,11 @@
       </table>
     </div>
 
-    <!-- -------- Charts -------- -->
+    <!-- Charts -->
     <div class="charts">
       <canvas id="categoryChart"></canvas>
       <canvas id="monthlyChart"></canvas>
     </div>
-
   </div>
 
   <script src="script.js"></script>
